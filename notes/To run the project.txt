@@ -1,0 +1,120 @@
+<command>npm start </command> from the project root
+
+Running index.html directly from the Browser WILL NOT WORK
+Using a CommonJS module from within the browser WILL NOT WORK.
+When you write <code> import ... from ... </code> in ES6 Babel will transpile these calls to a module definition called CommonJS and since CommonJS isn't around in the browser you'll get an undefined error from require().
+
+If you want to use CommonJS modules in your code base you need to first bundle them with either Browserify or webpack. The two tools will transform your require calls to some glue magic that you can use within the browser.
+
+npm start will first bundle the CommonJS modules, and then  will transform the require calls to some glue magic that can be used within the browser
+
+=======================================================================
+Directly importing modules in the browser needs a bundler like Webpack or Parcel. Here’s the proper way to set it up:
+
+1. Initialize your project (if you haven't already):
+    >npm init -y
+2. Install React, ReactDOM, and Babel:
+    >npm install react react-dom @babel/preset-react
+3. Install Webpack and necessary loaders:
+    >npm install webpack webpack-cli webpack-dev-server babel-loader @babel/core html-webpack-plugin
+4. Create a basic webpack.config.js:
+
+    javascript
+
+    const path = require('path');
+    const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+    module.exports = {
+        entry: './src/index.js',
+        output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: 'bundle.js',
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: 'babel-loader',
+                    },
+                },
+            ],
+        },
+        resolve: {
+            extensions: ['.js', '.jsx'],
+        },
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: './src/index.html',
+            }),
+        ],
+        devServer: {
+            contentBase: path.join(__dirname, 'dist'),
+            compress: true,
+            port: 9000,
+        },
+    };
+
+5. Set up Babel by creating a .babelrc file:
+
+    json
+
+    {
+        "presets": ["@babel/preset-react"]
+    }
+
+6. Create your component file (src/MyComponent.js):
+
+    javascript
+
+    import React from 'react';
+
+    class MyComponent extends React.Component {
+        render() {
+            return <div>Hello, I am a React Component from an external file!</div>;
+        }
+    }
+
+    export default MyComponent;
+
+7. Create your main entry file (src/index.js):
+
+        javascript
+
+        import React from 'react';
+        import ReactDOM from 'react-dom';
+        import MyComponent from './MyComponent';
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<MyComponent />);
+
+8. Set up your HTML file (src/index.html):
+
+        html
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>React External Component</title>
+        </head>
+        <body>
+            <div id="root"></div>
+        </body>
+        </html>
+
+9. Add scripts to your package.json:
+
+        json
+
+        "scripts": {
+            "start": "webpack serve --mode development",
+            "build": "webpack --mode production"
+        }
+10. Start your development server:
+
+        bash
+
+        >npm start
+This will bundle and serve your application correctly. 
