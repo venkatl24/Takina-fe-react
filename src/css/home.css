@@ -1,0 +1,41 @@
+.Home-heading {
+    display: flex;
+    align-items: center;
+    /* vertical align text*/
+    justify-content: center;
+    height: 175px;
+    padding-left: 10px;
+    background-color: #091235;
+    color: white;
+}
+
+.logo {
+    width: 155px;
+    display: block;
+    /* Ensures the element is treated as a block-level element */
+    margin-left: 0;
+    /* Aligns the logo to the left */
+}
+
+.title {
+    font-size: 4.625rem;
+    flex-grow: 1;
+}
+
+.menu {
+    font-size: 2.625rem;
+    flex-grow: 3;
+}
+
+.signin-button{
+    background-color: #F7DDDD;
+    font-size: 1.625rem;
+    color: black;
+    margin-right: 20px;
+
+}
+.tryforfree-button{
+    background-color: #88A9C3;
+    font-size: 1.625rem;
+    margin-right: 100px;
+}

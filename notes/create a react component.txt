@@ -1,6 +1,0 @@
-Open a JavaScript or TypeScript file.
-Type the name of the snippet you want to use and press Tab to insert it
-For example: To create a component called HelloComponent
-        First create a js file with name HelloComponent, then
-        Open the js file
-        Then type "rcc", and press "Tab" to create a class component
